@@ -38,4 +38,10 @@ router.put('/api/chirps/:id', (req, res) => {
     res.json({ msg: "Editing Chirp: " + id, details: updatedChirp });
 });
 
+router.delete('/api/chirps/:id', (req, res) => {
+    let id = req.params.id;
+    cs.DeleteChirp(id);
+    res.json("Deleteting Chirp with ID: " + id);
+});
+
 export default router;

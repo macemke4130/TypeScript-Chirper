@@ -34,7 +34,6 @@ const Admin: React.FC<AdminProps> = (props) => {
             },
             body: JSON.stringify(editedChirp)
         }
-        console.log(editedChirp);
         let put: Response = await fetch("/api/chirps/" + id, myMethod);
         showModal();
 
@@ -49,7 +48,11 @@ const Admin: React.FC<AdminProps> = (props) => {
     }
 
     const confirmDestroy = async () => {
-        console.log("Confirm Destroy");
+        setModalType("destroyed");
+        let myMethod = {
+            method: 'DELETE'
+        }
+        let destroy: Response = await fetch("/api/chirps/" + id, myMethod);
     }
 
     const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {

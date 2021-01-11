@@ -38,6 +38,17 @@ const Modal: React.FC<ModalProps> = (props) => {
                 </div>
             </>
         );
+    } else if (props.type === "destroyed") {
+        return (
+            <>
+                <div className="modal-container">
+                    <div className="my-pop-up">
+                        <h2>Chirp Deleted</h2>
+                        <Link to={"/"}><button>Return Home</button></Link>
+                    </div>
+                </div>
+            </>
+        );
     } else if (props.type === "none") {
         return (
             <>
@@ -45,7 +56,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             </>
         );
     }
-    
+
 };
 
 export default Modal;
