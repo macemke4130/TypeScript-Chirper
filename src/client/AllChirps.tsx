@@ -1,23 +1,17 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { Chirp } from "./utils/types";
 
 export interface AllChirpsProps { };
 
-export interface Chirps {
-    id: number,
-    user: string,
-    msg: string
-  }
-
 const AllChirps: React.FC<AllChirpsProps> = (props) => {
-    const [chirps, setAllChirps] = useState<Chirps[]>(null);
+    const [chirps, setAllChirps] = useState<Chirp[]>(null);
 
     const getAllChirps = async () => {
         let r = await fetch("/api/chirps/");
         let allChirpsJson = await r.json();
         setAllChirps(allChirpsJson);
-        console.log(allChirpsJson);
       };
 
       useEffect(() => {
@@ -27,7 +21,11 @@ const AllChirps: React.FC<AllChirpsProps> = (props) => {
       return (
           <>
           {chirps?.map(chirp => (
-                <div><Link to={"/" + chirp.id }>{chirp.msg}</Link></div>
+                <div key={"chirp-" + chirp.id}>
+                    <h3>@{chirp.user}</h3>
+                    <Link to={"/" + chirp.id }>{chirp.msg}</Link>
+                    <Link to={"/admin/" + chirp.id}><button>Admin</button></Link>
+                </div>
           ))}
           </>
           );

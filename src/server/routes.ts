@@ -9,9 +9,9 @@ router.get('/api/hello', (req, res, next) => {
 
 router.get('/api/chirps/:id?', (req, res, next) => {
     let id = req.params.id;
-    let chirps = id ? cs.GetChirp(id) : cs.GetChirps(); // Gets one or all depending on if ID exists --
+    let chirps = id ? cs.GetChirp(id) : cs.GetChirps(); // If id exists, chirps = get one, else chirp = get all --
 
-    if (id) {
+    if (id) { // Gets one or all depending on if ID exists --
         let singleChirp = {
             id, // implicit --
             user: chirps.user,
@@ -29,6 +29,13 @@ router.get('/api/chirps/:id?', (req, res, next) => {
         parsedChirps.pop(); // Removes "nextid" from the end of the new array --
         res.json(parsedChirps);
     }
+});
+
+router.put('/api/chirps/:id', (req, res) => {
+    let id = req.params.id;
+    const updatedChirp = req.body;
+    cs.UpdateChirp(id, updatedChirp);
+    res.json({ msg: "Editing Chirp: " + id, details: updatedChirp });
 });
 
 export default router;

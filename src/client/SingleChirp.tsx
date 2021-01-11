@@ -1,27 +1,19 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { Chirp } from "./utils/types";
 
 export interface SingleChirpProps { };
 
-export interface Chirp {
-    id: number,
-    user: string,
-    msg: string
-  }
-
 const SingleChirp: React.FC<SingleChirpProps> = (props) => {
-    // const { id } = useParams();
-    const test = useParams();
-    const id = test.id;
-    
+    const { id } = useParams<{id: string}>();
+
     const [chirp, setSingleChirp] = useState<Chirp>(null);
 
     const getSingleChirp = async () => {
-        let r = await fetch("/api/chirps/1");
+        let r = await fetch("/api/chirps/" + id);
         let singleChirpJson = await r.json();
         setSingleChirp(singleChirpJson);
-        console.log(singleChirpJson);
       };
 
       useEffect(() => {
@@ -30,7 +22,9 @@ const SingleChirp: React.FC<SingleChirpProps> = (props) => {
 
       return (
           <>
-          {/* {chirp.msg} */}
+          <h2>@{chirp?.user}</h2>
+          <h2>{chirp?.msg}</h2>
+          <Link to={"/"}><button>Return Home</button></Link>
           </>
           );
   };

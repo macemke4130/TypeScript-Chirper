@@ -1,0 +1,25 @@
+.my-pop-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    width: 50vw;
+    height: 50vh;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+}
