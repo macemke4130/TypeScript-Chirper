@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from 'react-router-dom';
 import { Chirp } from "./utils/types";
 import Modal from "./Modal";
-// import './styles.css';
 
 export interface AdminProps { };
 
@@ -26,7 +25,7 @@ const Admin: React.FC<AdminProps> = (props) => {
             user: user,
             msg: msg
         };
-        
+
         let myMethod = {
             method: 'PUT',
             headers: {
@@ -39,16 +38,18 @@ const Admin: React.FC<AdminProps> = (props) => {
 
     };
 
-    const showModal = () => { 
+    const showModal = () => {
         setModalType("edit");
     };
 
-    const destroyChirp = async () => {
+    const destroyChirp = () => {
         setModalType("destroy");
     }
 
     const confirmDestroy = async () => {
         setModalType("destroyed");
+        setUser("DELETED!");
+        setMsg("DELETED!");
         let myMethod = {
             method: 'DELETE'
         }
@@ -59,7 +60,7 @@ const Admin: React.FC<AdminProps> = (props) => {
         setUser(e.target.value);
     };
 
-    const handleMsgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMsgChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMsg(e.target.value);
     };
 
@@ -69,14 +70,22 @@ const Admin: React.FC<AdminProps> = (props) => {
 
     return (
         <>
-            <h1>Admin Panel</h1>
-            <label className="sr-only">User:</label><input type="text" value={user} onChange={handleUserChange} ></input>
-            <label className="sr-only">Chirp:</label><input type="text" value={msg} onChange={handleMsgChange} ></input>
-            <button onClick={editChirp}>Submit Edit</button>
-            <Link to={"/"}><button>Cancel Edit</button></Link>
-            <button onClick={destroyChirp}>Delete Chirp</button>
-
-            <Modal type={modalType} confirmDestroy={confirmDestroy} user={user} msg={msg}></Modal>
+            <div className="container d-flex flex-column align-items-center justify-content-center tall">
+                <div className="col-8 d-flex flex-column align-items-center">
+                    <h1>Admin Panel</h1>
+                    <div className="card full-width shadow m-2 p-3">
+                        <label>User</label><input type="text" value={user} onChange={handleUserChange} ></input>
+                        <div className="p-2"></div>
+                        <label>Chirp</label><textarea value={msg} onChange={handleMsgChange} ></textarea>
+                        <div className="d-flex full-width justify-content-between p-3">
+                            <button className="btn btn-primary btn-sm" onClick={editChirp}>Submit Edit</button>
+                            <Link to={"/"} className="btn btn-info btn-sm">Cancel Edit</Link>
+                            <button className="btn btn-danger btn-sm" onClick={destroyChirp}>Delete Chirp</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Modal type={modalType} function={confirmDestroy} user={user} msg={msg}></Modal>
         </>
     );
 };

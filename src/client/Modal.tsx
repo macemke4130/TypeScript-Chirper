@@ -1,62 +1,76 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export interface ModalProps {
     type: string,
-    confirmDestroy: any,
+    function: VoidFunction,
     user: string,
     msg: string
 };
 
 const Modal: React.FC<ModalProps> = (props) => {
-    if (props.type === "edit") {
-        return (
-            <>
-                <div className="modal-container">
-                    <div className="my-pop-up">
-                        <h2>Chirp has been updated</h2>
-                        <p>User: {props.user}</p>
-                        <p>Chirp: {props.msg}</p>
-                        <Link to={"/"}><button>Return Home</button></Link>
+    switch (props.type) {
+        case "edit":
+            return (
+                <>
+                    <div className="modal-container">
+                        <div className="my-pop-up">
+                            <h2>Chirp has been updated</h2>
+                            <h4 className="mt-2">@{props.user}</h4>
+                            <p className="mb-4">{props.msg}</p>
+                            <Link to={"/"}><button className="btn btn-primary">Return Home</button></Link>
+                        </div>
                     </div>
-                </div>
-            </>
-        );
-    } else if (props.type === "destroy") {
-        return (
-            <>
-                <div className="modal-container">
-                    <div className="my-pop-up">
-                        <h2>Delete Chrip?</h2>
-                        <h4>Are you sure you want to delete this Chirp?</h4>
-                        <p>User: {props.user}</p>
-                        <p>Chirp: {props.msg}</p>
-                        <Link to={"/"}><button>Cancel</button></Link>
-                        <button onClick={props.confirmDestroy}>Yes</button>
+                </>
+            );
+            break;
+        case "destroy":
+            return (
+                <>
+                    <div className="modal-container">
+                        <div className="my-pop-up">
+                            <h2>Are you sure you want to delete this Chirp?</h2>
+                                <h4 className="mt-2">@{props.user}</h4>
+                                <p className="mb-4">{props.msg}</p>
+                            <div className="d-flex justify-content-between width-50">
+                                <Link to={"/"}><button className="btn btn-primary">Cancel</button></Link>
+                                <button className="btn btn-danger" onClick={props.function}>Delete</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </>
-        );
-    } else if (props.type === "destroyed") {
-        return (
-            <>
-                <div className="modal-container">
-                    <div className="my-pop-up">
-                        <h2>Chirp Deleted</h2>
-                        <Link to={"/"}><button>Return Home</button></Link>
+                </>
+            );
+            break;
+        case "destroyed":
+            return (
+                <>
+                    <div className="modal-container">
+                        <div className="my-pop-up">
+                            <h2>Chirp Deleted</h2>
+                            <Link to={"/"}><button className="btn btn-primary">Return Home</button></Link>
+                        </div>
                     </div>
-                </div>
-            </>
-        );
-    } else if (props.type === "none") {
-        return (
-            <>
-                
-            </>
-        );
+                </>
+            );
+            break;
+        case "new":
+            return (
+                <>
+                    <div className="modal-container">
+                        <div className="my-pop-up">
+                            <h2>New Chirp Posted!</h2>
+                            <h3 className="mt-2">@{props.user}</h3>
+                            <p className="mb-4">{props.msg}</p>
+                            <Link to={"/"}><button className="btn btn-primary">Return Home</button></Link>
+                        </div>
+                    </div>
+                </>
+            );
+            break;
+        case "none":
+            return (<> </>);
+            break;
     }
-
 };
 
 export default Modal;

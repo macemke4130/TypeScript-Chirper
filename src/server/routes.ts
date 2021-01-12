@@ -7,6 +7,18 @@ router.get('/api/hello', (req, res, next) => {
     res.json('World');
 });
 
+router.post('/api/chirps/new', (req, res) => {
+    const newChirp = req.body;
+    console.log("New Chirp: " + newChirp);
+    cs.CreateChirp(newChirp);
+    res.json({ msg: "Add New Chirp", details: newChirp });
+});
+
+router.get('/api/nextid', (req, res, next) => {
+    let chirps = cs.GetChirps();
+    res.json(chirps.nextid);
+});
+
 router.get('/api/chirps/:id?', (req, res, next) => {
     let id = req.params.id;
     let chirps = id ? cs.GetChirp(id) : cs.GetChirps(); // If id exists, chirps = get one, else chirp = get all --
